@@ -1,3 +1,9 @@
+[reads.fastq.gz](reads.fastq.gz) was produced by extracting mapped reads from this file, and converting to FASTQ:
+
+```
+s3://ucsd-all/210924_A01535_0019_BHT7MHDSX2/210924_A01535_0019_BHT7MHDSX2_results/2021-09-28_01-17-47_pe/210924_A01535_0019_BHT7MHDSX2_samples/SEARCH-54039__E0001197__B04__210924_A01535_0019_BHT7MHDSX2__004/SEARCH-54039__E0001197__B04__210924_A01535_0019_BHT7MHDSX2__004.sorted.bam
+```
+
 Run simulations:
 
 ```bash

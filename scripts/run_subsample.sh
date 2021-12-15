@@ -85,6 +85,6 @@ LOG_AMPLIPY_AIO="$TMP_OUT_DIR/log.amplipy.aio.txt"
 /usr/bin/time -v -o "$TIME_AMPLIPY_AIO" AmpliPy.py aio -i "$UNTRIMMED_SORTED_BAM" -p "$PRIMER_BED" -r "$REF_FAS" -ot "$AMPLIPY_AIO_TRIMMED_BAM" -ov "$AMPLIPY_AIO_VARIANTS_VCF" -oc "$AMPLIPY_AIO_CONSENSUS_FAS" -x 5 -e -mdv 10 -mdc 10 -n N -mfc 0.5 2> "$LOG_AMPLIPY_AIO"
 
 # zip output and clean up
-rm -f $TMP_OUT_DIR/*.fastq $TMP_OUT_DIR/*.bam # delete FASTQs and BAMs to save space
+rm -f $TMP_OUT_DIR/*.fastq.gz $TMP_OUT_DIR/*.bam $TMP_OUT_DIR/*.bam.bai $TMP_OUT_DIR/*.pileup.txt  # delete FASTQs and BAMs to save space
 zip -j -9 "$OUT_ZIP" $TMP_OUT_DIR/*
 rm -rf "$TMP_OUT_DIR"
