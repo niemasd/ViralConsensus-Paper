@@ -1,1 +1,1 @@
-# AmpliPy-Paper
+# ViralConsensus-Paper
