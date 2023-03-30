@@ -6,6 +6,7 @@ To benchmark the accuracy of ViralConsensus, simulated reads from known genomes 
 * **Lineage XBB.1:** [OQ346068.1](https://www.ncbi.nlm.nih.gov/nuccore/OQ346068.1)
 
 # Illumina
+## Simulation
 We used [ART version MountRainier-2016-06-05](https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm) to simulate Illumina reads:
 
 ```bash
@@ -26,3 +27,25 @@ art_illumina -rs RNG_SEED -q -na -ss HS20 -l 100 -f COVERAGE -i REF_GENOME -o OU
 * `-f COVERAGE` = Simulate at `COVERAGE` fold coverage (e.g. `-f 10` = 10X coverage)
 * `-i REF_GENOME` = FASTA file containing the reference genome
 * `-o OUTPUT` = Output file prefix
+
+## Mapping
+Illumina reads were then mapped to the reference genome using Minimap2's short-read preset and piped to Samtools to convert to BAM:
+
+```bash
+TODO
+```
+
+The individual Minimap2 command is as follows:
+
+```bash
+minimap2 -t THREADS -a -x sr REF_GENOME READS | samtools view -@ THREADS -o OUTPUT
+```
+
+* `-t THREADS` = Use `THREADS` threads
+* `-a` = Output in the SAM format
+* `-x sr` = Use the short-read preset
+* `REF_GENOME` = FASTA file containing the reference genome
+* `READS` = FASTQ file containing the reads
+* `OUTPUT` = Output BAM file
+
+# Oxford Nanopore Technologies (ONT)
