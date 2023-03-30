@@ -67,3 +67,23 @@ nanosim-h -s RNG_SEED -o OUTPUT -n NUM_READS REF_GENOME
   * In its default settings, the average read length seems to be 7788.6321, so to obtain a coverage of roughly `C` for a genome of length `G`, one needs to simulate `G * C / 7788.6321` reads
   * For SARS-CoV-2, that's roughly 29903 * `C` / 7788.6321 = 3.839 * `C`
 * `REF_GENOME` = FASTA file containing the reference genome
+
+## Mapping
+ONT reads were then mapped to the reference genome using Minimap2's ONT preset and piped to Samtools to convert to BAM:
+
+```bash
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x sr $f/*.fas $f/c$c/ont/fasta/$f.c$c.ont.r$r.fa.gz | samtools view -@ 4 -o $f/c$c/ont/bam/$f.c$c.ont.r$r.bam ; done ; done ; done
+```
+
+The individual Minimap2 command is as follows:
+
+```bash
+minimap2 -t THREADS -a -x map-ont REF_GENOME READS | samtools view -@ THREADS -o OUTPUT
+```
+
+* `-t THREADS` = Use `THREADS` threads
+* `-a` = Output in the SAM format
+* `-x map-ont` = Use the ONT preset
+* `REF_GENOME` = FASTA file containing the reference genome
+* `READS` = FASTQ file containing the reads
+* `OUTPUT` = Output BAM file
