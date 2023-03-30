@@ -72,7 +72,7 @@ nanosim-h -s RNG_SEED -o OUTPUT -n NUM_READS REF_GENOME
 ONT reads were then mapped to the reference genome using Minimap2's ONT preset and piped to Samtools to convert to BAM:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x sr $f/*.fas $f/c$c/ont/fasta/$f.c$c.ont.r$r.fa.gz | samtools view -@ 4 -o $f/c$c/ont/bam/$f.c$c.ont.r$r.bam ; done ; done ; done
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x map-ont $f/*.fas $f/c$c/ont/fasta/$f.c$c.ont.r$r.fa.gz | samtools view -@ 4 -o $f/c$c/ont/bam/$f.c$c.ont.r$r.bam ; done ; done ; done
 ```
 
 The individual Minimap2 command is as follows:
