@@ -32,7 +32,7 @@ art_illumina -rs RNG_SEED -q -na -ss HS20 -l 100 -f COVERAGE -i REF_GENOME -o OU
 Illumina reads were then mapped to the reference genome using Minimap2's short-read preset and piped to Samtools to convert to BAM:
 
 ```bash
-TODO
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/illumina/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x sr $f/*.fas $f/c$c/illumina/fastq/$f.c$c.illumina.r$r.fq.gz | samtools view -@ 4 -o $f/c$c/illumina/bam/$f.c$c.illumina.r$r.bam ; done ; done ; done
 ```
 
 The individual Minimap2 command is as follows:
