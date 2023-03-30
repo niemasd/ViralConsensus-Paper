@@ -9,9 +9,10 @@ To benchmark the accuracy of ViralConsensus, simulated reads from known genomes 
 We used [ART version MountRainier-2016-06-05](https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm) to simulate Illumina reads:
 
 ```bash
-art_illumina -ss HS25 -l 100 -f COVERAGE -i REF_GENOME -o OUTPUT
+art_illumina -q -ss HS25 -l 100 -f COVERAGE -i REF_GENOME -o OUTPUT
 ```
 
+* `-q` = Quiet mode
 * `-ss HS20` = Use the HiSeq 2000 error profile
 * `-l 100` = Use a length of 100 bases for each read
 * `-f COVERAGE` = Simulate at `COVERAGE` fold coverage (e.g. `-f 10` = 10X coverage)
