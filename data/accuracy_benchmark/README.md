@@ -55,7 +55,7 @@ We used [NanoSim-H v1.1.0.4]([https://www.niehs.nih.gov/research/resources/softw
 for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do nanosim-h -s $RANDOM -o $f/c$c/ont/fasta/$f.c$c.ont.r$r -n $(bc -l <<< "3.839 * $c" | numlist -ceil) $f/*.fas ; done ; done ; done
 ```
 
-The individual ART command is as follows:
+The individual NanoSim-H command is as follows:
 
 ```bash
 nanosim-h -s RNG_SEED -o OUTPUT -n NUM_READS REF_GENOME
@@ -89,4 +89,18 @@ minimap2 -t THREADS -a -x map-ont REF_GENOME READS | samtools view -@ THREADS -o
 * `OUTPUT` = Output BAM file
 
 # ViralConsensus
-Consensus sequences were then called using ViralConsensus. For 
+Consensus sequences were then called using ViralConsensus v0.0.1:
+
+```bash
+for f in */*/*/bam/*.bam ; do viral_consensus -r ../reference/reference.fas -i $f -o $(echo $f | sed 's/\.bam/.viralconsensus.fas/g') ; done
+```
+
+The individual ViralConsensus command is as follows:
+
+```bash
+viral_consensus -r REF_GENOME -i INPUT_BAM -o OUTPUT_FAS
+```
+
+* `-r REF_GENOME` = Use the reference genome in the FASTA file called `REF_GENOME`
+* `-i INPUT_BAM` = Input from the BAM file called `INPUT_BAM`
+* `-o OUTPUT_FAS` = Output to a FASTA file called `OUTPUT_FAS`
