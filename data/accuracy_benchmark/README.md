@@ -10,7 +10,7 @@ To benchmark the accuracy of ViralConsensus, simulated reads from known genomes 
 We used [ART version MountRainier-2016-06-05](https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm) to simulate Illumina reads:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/illumina/fastq && for r in $(seq -w 1 10) ; do art_illumina -rs $RANDOM -q -na -ss HS20 -l 100 -f $c -i $f/*.fas -o $f/c$c/illumina/$f.c$c.illumina.r$r ; done ; done ; done
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/illumina/fastq && for r in $(seq -w 1 10) ; do art_illumina -rs $RANDOM -q -na -ss HS20 -l 100 -f $c -i $f/*.fas -o $f/c$c/illumina/fastq/$f.c$c.illumina.r$r ; done ; done ; done
 ```
 
 The individual ART command is as follows:
@@ -52,13 +52,12 @@ minimap2 -t THREADS -a -x sr REF_GENOME READS | samtools view -@ THREADS -o OUTP
 We used [NanoSim-H v1.1.0.4]([https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm](https://github.com/karel-brinda/NanoSim-H/releases/tag/1.1.0.4)) to simulate ONT reads:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do TODO ; done ; done ; done
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do nanosim-h -s $RANDOM -o $f/c$c/ont/fasta/$f.c$c.illumina.r$r -n $(bc -l <<< "3.839 * $c") $f/*.fas ; done ; done ; done
 ```
 
 The individual ART command is as follows:
 
 ```bash
-art_illumina -rs RNG_SEED -q -na -ss HS20 -l 100 -f COVERAGE -i REF_GENOME -o OUTPUT
 nanosim-h -s RNG_SEED -o OUTPUT -n NUM_READS REF_GENOME
 ```
 
