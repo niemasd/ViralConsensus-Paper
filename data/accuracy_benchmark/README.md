@@ -9,13 +9,13 @@ To benchmark the accuracy of ViralConsensus, simulated reads from known genomes 
 We used [ART version MountRainier-2016-06-05](https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm) to simulate Illumina reads:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/illumina/fastq && for r in $(seq -w 1 10) ; do art_illumina -rs $RANDOM -q -na -ss HS25 -l 100 -f $c -i $f/*.fas -o $f/c$c/illumina/$f.c$c.illumina.r$r ; done ; done ; done
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/illumina/fastq && for r in $(seq -w 1 10) ; do art_illumina -rs $RANDOM -q -na -ss HS20 -l 100 -f $c -i $f/*.fas -o $f/c$c/illumina/$f.c$c.illumina.r$r ; done ; done ; done
 ```
 
 The individual ART command is as follows:
 
 ```bash
-art_illumina -rs RNG_SEED -q -na -ss HS25 -l 100 -f COVERAGE -i REF_GENOME -o OUTPUT
+art_illumina -rs RNG_SEED -q -na -ss HS20 -l 100 -f COVERAGE -i REF_GENOME -o OUTPUT
 ```
 
 * `-rs RNG_SEED` = Use `RNG_SEED` as the random number generation seed (`-r $RANDOM` picks a random value from the OS)
