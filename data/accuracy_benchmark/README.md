@@ -104,3 +104,23 @@ viral_consensus -r REF_GENOME -i INPUT_BAM -o OUTPUT_FAS
 * `-r REF_GENOME` = Use the reference genome in the FASTA file called `REF_GENOME`
 * `-i INPUT_BAM` = Input from the BAM file called `INPUT_BAM`
 * `-o OUTPUT_FAS` = Output to a FASTA file called `OUTPUT_FAS`
+
+# iVar Pipeline
+Consensus sequences were also called using the iVar pipeline.
+
+## Sort the BAMs
+The Minimap2-mapped BAMs were sorted using Samtools v1.17:
+
+```bash
+for f in */*/*/bam/*.bam ; do samtools view -@ 8 -o $(echo $f | sed 's/\.bam$/.sorted.bam/g') $f ; done
+```
+
+The individual Samtools command is as follows:
+
+```bash
+samtools view -@ THREADS -o OUTPUT_SORTED_BAM INPUT_BAM
+```
+
+* `-@ THREADS` = Use `THREADS` threads
+* `-o OUTPUT_SORTED_BAM` = Output to a sorted BAM file called `OUTPUT_SORTED_BAM`
+* `INPUT_BAM` = Input from the BAM file called `INPUT_BAM`
