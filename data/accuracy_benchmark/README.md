@@ -112,7 +112,7 @@ Consensus sequences were also called using the iVar pipeline.
 The Minimap2-mapped BAMs were sorted using Samtools v1.17:
 
 ```bash
-for f in */*/*/bam/*.bam ; do samtools view -@ 8 -o $(echo $f | sed 's/\.bam$/.sorted.bam/g') $f ; done
+for f in */*/*/bam/*.bam ; do samtools sort -@ 8 -o $(echo $f | sed 's/\.bam$/.sorted.bam/g') $f ; done
 ```
 
 The individual Samtools command is as follows:
