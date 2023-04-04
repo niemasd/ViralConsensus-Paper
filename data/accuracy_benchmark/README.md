@@ -92,7 +92,7 @@ minimap2 -t THREADS -a -x map-ont REF_GENOME READS | samtools view -@ THREADS -o
 Consensus sequences were then called using ViralConsensus v0.0.1:
 
 ```bash
-for f in */*/*/bam/*.bam ; do viral_consensus -r ../reference/reference.fas -i $f -o $(echo $f | sed 's/\.bam/.viralconsensus.fas/g') ; done
+for f in */*/*/bam/*.bam ; do viral_consensus -r ../reference/reference.fas -i $f -o $(echo $f | sed 's/\.bam/.viralconsensus.fas/g' | sed 's/\/bam\//\/viralconsensus\//g') ; done
 ```
 
 The individual ViralConsensus command is as follows:
