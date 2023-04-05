@@ -32,7 +32,7 @@ art_illumina -rs RNG_SEED -q -na -ss HS20 -l 100 -f COVERAGE -i REF_GENOME -o OU
 Illumina reads were then mapped to the reference genome using Minimap2's short-read preset and piped to Samtools to convert to BAM:
 
 ```bash
-for f in lineage_* ; do for c in 30 40 50 ; do mkdir -p $f/c$c/illumina/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x sr ../reference/reference.fas $f/c$c/illumina/fastq/$f.c$c.illumina.r$r.fq.gz | samtools view -@ 4 -o $f/c$c/illumina/bam/$f.c$c.illumina.r$r.bam ; done ; done ; done && pigz -9 -p 8 */*/ont/fasta/*.fa
+for f in lineage_* ; do for c in 30 40 50 ; do mkdir -p $f/c$c/illumina/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x sr ../reference/reference.fas $f/c$c/illumina/fastq/$f.c$c.illumina.r$r.fq.gz | samtools view -@ 4 -o $f/c$c/illumina/bam/$f.c$c.illumina.r$r.bam ; done ; done ; done
 ```
 
 The individual Minimap2 command is as follows:
@@ -52,7 +52,7 @@ minimap2 -t THREADS -a -x sr REF_GENOME READS | samtools view -@ THREADS -o OUTP
 We used [NanoSim-H v1.1.0.4]([https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm](https://github.com/karel-brinda/NanoSim-H/releases/tag/1.1.0.4)) to simulate ONT reads:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do nanosim-h -s $RANDOM -o $f/c$c/ont/fasta/$f.c$c.ont.r$r -n $(bc -l <<< "3.839 * $c" | numlist -ceil) $f/*.fas ; done ; done ; done
+for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do nanosim-h -s $RANDOM -o $f/c$c/ont/fasta/$f.c$c.ont.r$r -n $(bc -l <<< "3.839 * $c" | numlist -ceil) $f/*.fas ; done ; done ; done && pigz -9 -p 8 */*/ont/fasta/*.fa
 ```
 
 The individual NanoSim-H command is as follows:
