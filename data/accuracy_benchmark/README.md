@@ -52,7 +52,7 @@ minimap2 -t THREADS -a -x sr REF_GENOME READS | samtools view -@ THREADS -o OUTP
 We used [NanoSim-H v1.1.0.4]([https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm](https://github.com/karel-brinda/NanoSim-H/releases/tag/1.1.0.4)) to simulate ONT reads:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do nanosim-h -s $RANDOM -o $f/c$c/ont/fasta/$f.c$c.ont.r$r -n $(bc -l <<< "3.839 * $c" | numlist -ceil) $f/*.fas ; done ; done ; done && pigz -9 -p 8 */*/ont/fasta/*.fa
+for f in lineage_* ; do for c in 30 40 50 ; do mkdir -p $f/c$c/ont/fasta && for r in $(seq -w 1 10) ; do nanosim-h -s $RANDOM -o $f/c$c/ont/fasta/$f.c$c.ont.r$r -n $(bc -l <<< "3.839 * $c" | numlist -ceil) $f/*.fas ; done ; done ; done && pigz -9 -p 8 */*/ont/fasta/*.fa
 ```
 
 The individual NanoSim-H command is as follows:
@@ -72,7 +72,7 @@ nanosim-h -s RNG_SEED -o OUTPUT -n NUM_READS REF_GENOME
 ONT reads were then mapped to the reference genome using Minimap2's ONT preset and piped to Samtools to convert to BAM:
 
 ```bash
-for f in lineage_* ; do for c in 10 30 50 ; do mkdir -p $f/c$c/ont/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x map-ont ../reference/reference.fas $f/c$c/ont/fasta/$f.c$c.ont.r$r.fa.gz | samtools view -@ 4 -o $f/c$c/ont/bam/$f.c$c.ont.r$r.bam ; done ; done ; done
+for f in lineage_* ; do for c in 30 40 50 ; do mkdir -p $f/c$c/ont/bam && for r in $(seq -w 1 10) ; do minimap2 -t 4 -a -x map-ont ../reference/reference.fas $f/c$c/ont/fasta/$f.c$c.ont.r$r.fa.gz | samtools view -@ 4 -o $f/c$c/ont/bam/$f.c$c.ont.r$r.bam ; done ; done ; done
 ```
 
 The individual Minimap2 command is as follows:
