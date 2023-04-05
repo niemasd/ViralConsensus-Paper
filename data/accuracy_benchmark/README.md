@@ -151,7 +151,7 @@ samtools mpileup -A -aa -d 0 -Q 0 --reference REF_GENOME INPUT_SORTED_BAM | pigz
 Consensus sequences were called using iVar:
 
 ```bash
-for f in */*/*/*/*.pileup.txt.gz ; do zcat $f | ivar consensus -p $(echo $f | sed 's/\/pileup\//\/ivarconsensus\//g' | sed 's/\.txt\.gz$/ivar/g') -m 10 -n N -t 0.5 ; done
+for f in */*/*/*/*.pileup.txt.gz ; do zcat $f | ivar consensus -p $(echo $f | sed 's/\/pileup\//\/ivarconsensus\//g' | sed 's/\.txt\.gz$/.ivar/g') -m 10 -n N -t 0.5 ; done
 ```
 
 The individual command is as follows:
