@@ -10,7 +10,7 @@ To benchmark the accuracy of ViralConsensus, simulated reads from known genomes 
 We used [ART version MountRainier-2016-06-05](https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm) to simulate Illumina reads:
 
 ```bash
-for f in lineage_* ; do for c in 30 40 50 ; do mkdir -p $f/c$c/illumina/fastq && for r in $(seq -w 1 10) ; do art_illumina -rs $RANDOM -q -na -ss HS20 -l 100 -f $c -i $f/*.fas -o $f/c$c/illumina/fastq/$f.c$c.illumina.r$r ; done ; done ; done
+for f in lineage_* ; do for c in 30 40 50 ; do mkdir -p $f/c$c/illumina/fastq && for r in $(seq -w 1 10) ; do art_illumina -rs $RANDOM -q -na -ss HS20 -l 100 -f $c -i $f/*.fas -o $f/c$c/illumina/fastq/$f.c$c.illumina.r$r ; done ; done ; done && pigz -9 -p 8 */*/*/fastq/*
 ```
 
 The individual ART command is as follows:
