@@ -108,7 +108,7 @@ viral_consensus -r REF_GENOME -i INPUT_BAM -o OUTPUT_FAS
 # iVar Pipeline
 Consensus sequences were also called using the iVar pipeline.
 
-## Sort the BAMs
+## Sorting the BAMs
 The Minimap2-mapped BAMs were sorted using Samtools v1.17:
 
 ```bash
@@ -124,3 +124,25 @@ samtools view -@ THREADS -o OUTPUT_SORTED_BAM INPUT_BAM
 * `-@ THREADS` = Use `THREADS` threads
 * `-o OUTPUT_SORTED_BAM` = Output to a sorted BAM file called `OUTPUT_SORTED_BAM`
 * `INPUT_BAM` = Input from the BAM file called `INPUT_BAM`
+
+## Generating the Pile-ups
+Pile-up files were calculated from the sorted BAMs using Samtools v1.17:
+
+```bash
+for f in */*/*/bam/*.sorted.bam ; do samtools mpileup -A -aa -d 0 -Q 0 --reference ../reference/reference.fas $f | pigz -9 -p 8 > $(echo $f | sed 's/\.bam$/.pileup.txt.gz/g' | sed 's/\/bam\//\/pileup\//g') ; done
+```
+
+The individual command is as follows:
+
+```bash
+samtools mpileup -A -aa -d 0 -Q 0 --reference REF_GENOME INPUT_SORTED_BAM | pigz -9 -p THREADS > OUTPUT_PILEUP
+```
+
+* `-A` = Count orphan reads
+* `-aa` = Output absolutely all positions of the reference
+* `-d 0` = No maximum depth
+* `-Q 0` = Use a minimum base quality threshold of 0
+* `--reference REF_GENOME` = Use the reference genome in the FASTA file called `REF_GENOME`
+* `-9` = Use maximum GZIP compression
+* `-p THREADS` = Compress using `THREADS` threads
+* `OUTPUT_PILEUP` = The output pile-up file
