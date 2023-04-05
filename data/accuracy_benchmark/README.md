@@ -146,3 +146,9 @@ samtools mpileup -A -aa -d 0 -Q 0 --reference REF_GENOME INPUT_SORTED_BAM | pigz
 * `-9` = Use maximum GZIP compression
 * `-p THREADS` = Compress using `THREADS` threads
 * `OUTPUT_PILEUP` = The output pile-up file
+
+## Calling Consensus using iVar Consensus
+Consensus sequences were called using iVar v???:
+
+```bash
+```
