@@ -165,3 +165,20 @@ zcat INPUT_PILEUP_GZ | ivar consensus -p OUTPUT_PREFIX -m MIN_DEPTH -n AMBIG -t 
 * `-m MIN_DEPTH` = Only call non-ambiguous bases in positions with a coverage of at least `MIN_DEPTH`
 * `-n AMBIG` = Use `AMBIG` as the symbol representing ambiguous positions
 * `-t MIN_FREQ` = Only call non-ambiguous bases in positions with a max base frequency of at least `MIN_FREQ`
+
+# Pairwise Align to True Genome
+Consensus sequences were pairwise-aligned to the true genome sequences using MAFFT:
+
+```bash
+for f in */*/*/*/*.viralconsensus.fas */*/*/*/*.ivar.fa ; do mafft <(cat $(echo $f | cut -d'/' -f1)/*.fas $f) | fasta1ln.py > $(echo $f | rev | cut -d'.' -f2- | rev).aln ; done
+```
+
+The individual command is as follows:
+
+```bash
+mafft <(cat TRUE_GENOME INPUT_CONSENSUS) | fasta1ln.py > OUTPUT_ALIGNMENT
+```
+
+* `TRUE_GENOME` = FASTA file containing the true genome
+* `INPUT_CONSENSUS` = FASTA file containing the ViralConsensus/iVar consensus genome sequence
+* `OUTPUT_ALIGNMENT` = FASTA file containing output pairwise alignment between `TRUE_GENOME` and `INPUT_CONSENSUS`
