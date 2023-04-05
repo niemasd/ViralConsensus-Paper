@@ -89,7 +89,7 @@ minimap2 -t THREADS -a -x map-ont REF_GENOME READS | samtools view -@ THREADS -o
 * `OUTPUT` = Output BAM file
 
 # ViralConsensus
-Consensus sequences were then called using ViralConsensus v0.0.1:
+Consensus sequences were then called using ViralConsensus:
 
 ```bash
 for f in */*/*/bam/*.bam ; do viral_consensus -r ../reference/reference.fas -i $f -o $(echo $f | sed 's/\.bam/.viralconsensus.fas/g' | sed 's/\/bam\//\/viralconsensus\//g') ; done
@@ -109,7 +109,7 @@ viral_consensus -r REF_GENOME -i INPUT_BAM -o OUTPUT_FAS
 Consensus sequences were also called using the iVar pipeline.
 
 ## Sorting the BAMs
-The Minimap2-mapped BAMs were sorted using Samtools v1.17:
+The Minimap2-mapped BAMs were sorted using Samtools:
 
 ```bash
 for f in */*/*/bam/*.bam ; do samtools sort -@ 8 -o $(echo $f | sed 's/\.bam$/.sorted.bam/g') $f ; done
@@ -126,7 +126,7 @@ samtools view -@ THREADS -o OUTPUT_SORTED_BAM INPUT_BAM
 * `INPUT_BAM` = Input from the BAM file called `INPUT_BAM`
 
 ## Generating the Pile-ups
-Pile-up files were calculated from the sorted BAMs using Samtools v1.17:
+Pile-up files were calculated from the sorted BAMs using Samtools:
 
 ```bash
 for f in */*/*/bam/*.sorted.bam ; do samtools mpileup -A -aa -d 0 -Q 0 --reference ../reference/reference.fas $f | pigz -9 -p 8 > $(echo $f | sed 's/\.bam$/.pileup.txt.gz/g' | sed 's/\/bam\//\/pileup\//g') ; done
@@ -145,10 +145,23 @@ samtools mpileup -A -aa -d 0 -Q 0 --reference REF_GENOME INPUT_SORTED_BAM | pigz
 * `--reference REF_GENOME` = Use the reference genome in the FASTA file called `REF_GENOME`
 * `-9` = Use maximum GZIP compression
 * `-p THREADS` = Compress using `THREADS` threads
-* `OUTPUT_PILEUP` = The output pile-up file
+* `OUTPUT_PILEUP_GZ` = The output gzip-compressed pile-up file
 
 ## Calling Consensus using iVar Consensus
-Consensus sequences were called using iVar v???:
+Consensus sequences were called using iVar:
 
 ```bash
+for f in */*/*/*/*.pileup.txt.gz ; do zcat $f | ivar consensus -p $(echo $f | sed 's/\/pileup\//\/ivarconsensus\//g' | sed 's/\.txt\.gz$/ivar/g') -m 10 -n N -t 0.5 ; done
 ```
+
+The individual command is as follows:
+
+```bash
+zcat INPUT_PILEUP_GZ | ivar consensus -p OUTPUT_PREFIX -m MIN_DEPTH -n AMBIG -t MIN_FREQ
+```
+
+* `INPUT_PILEUP_GZ` = The input gzip-compressed pile-up file
+* `-p OUTPUT_PREFIX` = Use `OUTPUT_PREFIX` as the output file prefix
+* `-m MIN_DEPTH` = Only call non-ambiguous bases in positions with a coverage of at least `MIN_DEPTH`
+* `-n AMBIG` = Use `AMBIG` as the symbol representing ambiguous positions
+* `-t MIN_FREQ` = Only call non-ambiguous bases in positions with a max base frequency of at least `MIN_FREQ`
