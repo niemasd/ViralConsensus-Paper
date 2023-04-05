@@ -129,7 +129,7 @@ samtools view -@ THREADS -o OUTPUT_SORTED_BAM INPUT_BAM
 Pile-up files were calculated from the sorted BAMs using Samtools:
 
 ```bash
-for f in */*/*/bam/*.sorted.bam ; do samtools mpileup -A -aa -d 0 -Q 0 --reference ../reference/reference.fas $f | pigz -9 -p 8 > $(echo $f | sed 's/\.bam$/.pileup.txt.gz/g' | sed 's/\/bam\//\/pileup\//g') ; done
+for f in */*/*/bam/*.sorted.bam ; do mkdir -p $(echo $f | cut -d'/' -f1-3)/pileup && samtools mpileup -A -aa -d 0 -Q 0 --reference ../reference/reference.fas $f | pigz -9 -p 8 > $(echo $f | sed 's/\.bam$/.pileup.txt.gz/g' | sed 's/\/bam\//\/pileup\//g') ; done
 ```
 
 The individual command is as follows:
